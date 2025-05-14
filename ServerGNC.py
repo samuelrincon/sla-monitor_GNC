@@ -46,7 +46,9 @@ agent_data = {
         "Personal": 0,
         "IT Issues": 0,
         "Long Call": 7,
-        "ACW": 2
+        "ACW": 2,
+        "Unresponsible": 0,
+        "Unavailable": 0
     }
 }
 
@@ -174,6 +176,10 @@ def update_agent_data():
                 alert = "Long Call"
             elif "ACW" in state and duration_sec > (agent_data['alert_times']["ACW"] * 60):
                 alert = "ACW"
+            elif "Unresponsive" in state and duration_sec > (agent_data['alert_times']["Unresponsive"] * 60):
+                alert = "Unresponsive"
+            elif "Unavailable" in state and duration_sec > (agent_data['alert_times']["Unavailable"] * 60):
+                alert = "Unavailable"
             
             if alert:
                 agent_data['alert_list'].append((alert, name, duration, state))
@@ -677,6 +683,7 @@ def alerts():
         <head>
             <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="refresh" content="15">
             <title>Active Alerts</title>
             <style>
                 body {
@@ -1231,7 +1238,9 @@ def settings():
                 "Personal": 0,
                 "IT Issues": 0,
                 "Long Call": 7,
-                "ACW": 2
+                "ACW": 2,
+                "Unresponsible": 0,
+                "Unavailable": 0
             }
             return redirect(url_for('settings', message='Default times restored successfully!', message_type='success'))
     
